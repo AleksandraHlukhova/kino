@@ -44,6 +44,7 @@ let showFullFilmInfo = (event) => {
 				<div class="col-9">
 					<div class="overviewFilm">
 						<p>${data.overview}</p>
+						${(data.last_episode_to_air) ? `<p>Количество сезонов:${data.last_episode_to_air.season_number}    Дата выхода последнего эпизода:${data.last_episode_to_air.air_date} </p>` : ''}
 					</div>
 				</div>	
 		 		`;
