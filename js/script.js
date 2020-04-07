@@ -20,16 +20,38 @@ let showFullFilmInfo = (event) => {
 		
 		///метод датасет находит наши атрибуты, а через точку именно какой дата атрибут
 	fetch(url)
-     .then((result) => {
+    .then((result) => {
 		return result.json();
 	})
-     .then((data) => {
-		 console.log(data);
-     })
-     .catch((error) => {
+    .then((data) => {
+		console.log(data); 
+		const poster = data.poster_path ? urlPoster + data.poster_path : './img/noposter.jpg';
+		moviesWrap.innerHTML = `
+				<div class="col-12">
+					<div class="text_center"
+						<h5>${data.name || data.title}</h5>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="outer_img_wrap">
+						<div class="img_wrap">
+							<img src="${poster}" alt="${data.name || data.title}">
+						</div>
+						${(data.homepage) ? `<p class=""><a href="${data.homepage}" target="_blank">Официальная страница</a></p>` : ''}
+						${(data.imdb_id) ? `<p class=""><a href="https://imdb.com/title/${data.imdb_id}" target="_blank">Страница на IMDB</a></p>` : ''}
+					</div>	
+				</div>
+				<div class="col-9">
+					<div class="overviewFilm">
+						<p>${data.overview}</p>
+					</div>
+				</div>	
+		 		`;
+    })
+    .catch((error) => {
      	moviesWrap.innerHTML = 'Упс, что-то пошло не так!';
-     	console.error(error.status + ':' + error.status);
-     });
+     	console.error(error || error.status);x
+    });
 	};
 };
 
@@ -41,18 +63,20 @@ let createCards = (data) => {
 		card = '<h2>По вашему запросу ничего не найдено</h2>';
 	}
 	data.results.forEach((item) => {
-		let name = item.name || item.title;
+		let name = item.name || item.title;  //name - у фильмов  title - у сериалов
 		const poster = item.poster_path ? urlPoster + item.poster_path : './img/noposter.jpg';
 		let dataInfo = '';
 		if(item.media_type !== 'person') dataInfo = `data-id="${item.id}" data-type="${item.media_type}"`;
 		card += `
 			<div class="col-3">
-			<div class="outer_img_wrap">
-			<div class="img_wrap">
-			<img src="${poster}" alt="${name}" ${dataInfo}>
-			</div>
-			<h5>${name}</h5>
-			</div>
+				<div class="outer_img_wrap">
+					<div class="img_wrap">
+						<img src="${poster}" alt="${name}" ${dataInfo}>
+					</div>
+					<div class="text_center">
+						<h5>${name}</h5>
+					</div>
+				</div>
 			</div>`;
 	});
 	moviesWrap.innerHTML = card;

@@ -190,7 +190,19 @@ img {
   padding-bottom: 150%;
 }
 .outer_img_wrap {
+  padding-bottom: 30px;
+}
+#movies_wrap .text_center {
+  display: flex;
+  justify-content: center;
+  text-align: center;
   margin-bottom: 30px;
+}
+#movies_wrap .overviewFilm {
+  line-height: 1.5;
+  font-size: 16px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 h5,
 h2 {
